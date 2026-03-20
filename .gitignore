@@ -1,0 +1,12 @@
+tp2
+*.exe
+*.txt
+*.log
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.o
+*.obj
+*.ignore
