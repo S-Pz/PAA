@@ -3,6 +3,8 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
+#define MAX 100001
+
 long long max(long long a, long long b) {
     return (a > b) ? a : b;
 }
@@ -30,10 +32,39 @@ long long solve_dp(int *a, int n) {
     return result;
 }
 
-// TODO: Estratégia A: 
+long long memo[MAX];
+
+long long solve_topdown(int *a, int n, int i) {
+
+    if (i >= n) {
+        return 0;
+    }
+
+    if (memo[i] != -1) {
+        return memo[i];
+    }
+
+    // Opção 1: pegar elemento atual
+    long long pegar =
+        a[i] + solve_topdown(a, n, i + 2);
+
+    // Opção 2: não pegar elemento atual
+    long long nao_pegar =
+        solve_topdown(a, n, i + 1);
+
+    // Guardar melhor resultado
+    memo[i] = max(pegar, nao_pegar);
+
+    return memo[i];
+}
+
 long long A(int *a, int n) {
-    if (n == 0) return 0;
-    if (n == 1) return a[0];
+
+    for (int i = 0; i < MAX; i++) {
+        memo[i] = -1;
+    }
+
+    return solve_topdown(a, n, 0);
 }
 
 int main(int argc, char *argv[]) {
