@@ -3,7 +3,6 @@
 ## Integrantes
 - Lívia Carvalho Dâmaso  
 - Lucas de Lima Bergami  
-- Rian Wagner Costa  
 - Sávio Francisco Cirino da Paz  
 
 ---

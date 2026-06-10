@@ -1,40 +1,45 @@
-TARGET = tp2
+TARGET = bin/tp2
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -O2
+CFLAGS = -Wall -Wextra -O2 -Iinclude
 
-SRC = tp2.c
+SRC = src/main.c \
+      src/solver.c \
+      src/io.c \
+      src/timer.c
 
-all: $(TARGET)
+OBJ = build/main.o \
+      build/solver.o \
+      build/io.o \
+      build/timer.o
 
-# Compilar
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET)
 
-# Rodar com estratégia D
-runD: $(TARGET)
-	./$(TARGET) D entrada.txt
+all: directories $(TARGET)
 
-# Rodar com estratégia A
-runA: $(TARGET)
-	./$(TARGET) A entrada.txt
+directories:
+	mkdir -p bin
+	mkdir -p build
+
+
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $(TARGET)
+
+
+build/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
+runD:
+	./bin/tp2 D entrada.txt
+
+
+runA:
+	./bin/tp2 A entrada.txt
 
 clean:
-	rm -f $(TARGET) saida.txt
+	rm -rf build/*
+	rm -rf bin/*
+	rm -f saida.txt
 
 rebuild: clean all
-
-# Gerar entrada padrão
-input:
-	echo -e "9\n1 2 1 3 2 2 2 2 3" > entrada.txt
-
-# Gerar entrada simples
-input2:
-	echo -e "5\n1 2 3 4 5" > entrada.txt
-
-# Gerar entrada grande (exemplo)
-input_big:
-	echo "100000" > entrada.txt
-	for i in `seq 1 100000`; do echo -n "$$((RANDOM % 10)) " >> entrada.txt; done
-	echo "" >> entrada.txt
