@@ -1,17 +1,27 @@
 #include <stdio.h>
 #include <sys/resource.h>
+#include <sys/time.h>
 
 #include "timer.h"
 
-void print_times() {
+Time get_real_time() {
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    return format_time(now.tv_sec, now.tv_usec);
+}
 
-  struct rusage usage;
+Time get_cpu_time() {
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    return format_time(usage.ru_utime.tv_sec, usage.ru_utime.tv_usec);
+}
 
-  getrusage(RUSAGE_SELF, &usage);
+Time format_time(long int sec, long int usec) {
+    Time total_time = sec + ((Time)usec / 1000000.0L);
+    return total_time;
+}
 
-  printf("User time: %ld.%06ld\n", usage.ru_utime.tv_sec,
-         usage.ru_utime.tv_usec);
-
-  printf("System time: %ld.%06ld\n", usage.ru_stime.tv_sec,
-         usage.ru_stime.tv_usec);
+void print_elapsed_time(char* message, Time start, Time end) {
+    Time elapsed_time = end - start;
+    printf("%s = %Lf\n", message, elapsed_time);
 }
