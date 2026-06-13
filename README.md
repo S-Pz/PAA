@@ -35,7 +35,24 @@ Complexidade:
 ---
 
 ### Estratégia Alternativa (A)
-TODO
+
+A estratégia alternativa utiliza **programação dinâmica top-down com memoização**.
+
+O algoritmo decide, para cada posição `i`, entre:
+
+- **Escolher `a[i]`** e pular para `i + 2`
+- **Não escolher `a[i]`** e avançar para `i + 1`
+
+A solução utiliza um vetor `memo` para armazenar resultados já calculados e evitar recomputações.
+
+#### Recorrência
+```
+solve(i) = max(a[i] + solve(i + 2), solve(i + 1))
+```
+Complexidade:
+- Tempo: O(n)
+- Espaço: O(n)
+
 ---
 
 ## Compilação e Execução
@@ -70,27 +87,6 @@ make clean
 
 ---
 
-## Geração de Entradas
-
-O Makefile possui comandos para gerar arquivos de entrada automaticamente:
-
-### Entrada padrão
-```bash
-make input
-```
-
-### Entrada simples
-```bash
-make input2
-```
-
-### Entrada grande (100.000 elementos aleatórios)
-```bash
-make input_big
-```
-
----
-
 ## Saída
 
 - O resultado da execução é salvo em:
@@ -99,7 +95,7 @@ saida.txt
 ```
 
 - No terminal são exibidos:
-  - Tempo de usuário (user time)
+  - Tempo de cpu (user time)
   - Tempo de sistema (system time)
 
 ---
@@ -109,7 +105,7 @@ saida.txt
 - O programa também pode ser executado diretamente:
 
 ```bash
-./tp2 <D|A> entrada.txt
+./bin/tp2 <D|A> entrada.txt
 ```
 
 - `D` → Programação Dinâmica  
